@@ -54,13 +54,10 @@ function getData() {
  * 按空气质量对data进行从小到大的排序
  * 返回一个排序后的数组
  */
-function sortAqiData(data) {
-  function sortNum(a,b){
-    return b[1]-a[1];
-  }
-  data.sort(sortNum);
-  // console.log(data);
-  return data;
+function sortAqiData(data) { 
+  return data.sort(function (a,b) {
+    return a[1]-b[1];
+  });
 }
 
 /**
@@ -70,7 +67,6 @@ function sortAqiData(data) {
  */
 function render(data) {
   var resort = document.getElementById("resort");
-  // console.log(data);
   for(i=0 ;i< data.length; i++){
     var resortList = document.createElement("li");
     var chineseNum;
