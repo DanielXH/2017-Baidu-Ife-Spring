@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ife4</title>
+	<style>
+		input{
+			width: 200px;
+		}
+		button{
+			border-radius: 4px;
+		}
+		li{
+			list-style-type: none;
+			display: inline-block;
+			height: 70px;
+			padding: 0 20px;
+			margin: 20px 10px 0px;
+			background-color: #666;
+			font-size: 18px;
+			font-family: "微软雅黑";
+			font-weight: bold;
+			line-height: 70px;
+			color: #fff;
+			
+		}
+
+	</style>
+</head>
+<body>
+	<input id="input" type="text">
+	<button id="left-in">左侧入</button>
+	<button id="right-in">右侧入</button>
+	<button id="left-out">左侧出</button>
+	<button id="right-out">右侧出</button>
+	<div id="queue"></div>
+</body
+>
+<script>
+	var li = document.getElementById("left-in"),
+		ri = document.getElementById("right-in"),
+		lo = document.getElementById("left-out"),
+		ro = document.getElementById("right-out"),
+		input = document.getElementById("input"),
+		queue = document.getElementById("queue");		
+	var arr = new Array();
+
+	li.onclick = function(){
+		if (input.value !== "") {
+			arr.unshift(input.value);
+			input.value="";
+			refresh();
+		}
+	}
+	ri.onclick = function(){
+		if (input.value !== ""){
+			arr.push(input.value);
+			input.value="";
+			refresh();
+		}
+	}
+	lo.onclick = function(){
+		arr.splice(0,1);
+		input.value="";
+		refresh();
+	}
+	ro.onclick = function(){
+		arr.splice(-1,1);
+		input.value="";
+		refresh();
+	}
+
+	//点击元素，该元素从队列中删除
+	// queue.addEventListener("click", function(){
+	// });
+	// var list = document.getElementsByTagName("li");
+	// list.onclick = function(){
+	// 	alert("arf");
+	// }
+
+	// 每次执行onclick事件后都执行refresh()函数以更新前台显示数据
+	function refresh(){
+		queue.innerHTML = "";
+		for(var i in arr){
+			queue.innerHTML += "<li>" + arr[i] + "</li>";
+		}	
+	}
+	queue.addEventListener("click",clickRemove(),true);
+
+	function clickRemove(){
+		refresh();
+		var list = queue.getElementsByTagName("li");
+		console.log(list);
+		for(var i in list){
+			list[i].onclick = function(){
+				queue.splice(i,1);
+			}
+		}
+		refresh();
+	}
+
+
+</script>
+
+</html>
