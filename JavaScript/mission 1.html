@@ -21,12 +21,11 @@
   获取aqi-input输入的值，并显示在aqi-display中
   */
   var button = document.getElementById('button');
+  var input = document.getElementById('aqi-input');
+  var display = document.getElementById('aqi-display');
   button.addEventListener("click", function(){
-    var inputText = document.getElementById('aqi-input').value;
-    var spanText = document.getElementById('aqi-display');
-    var textNode = document.createTextNode(inputText);
-    spanText.removeChild(spanText.childNodes[0]);
-    spanText.appendChild(textNode);
+    var text = input.value;
+    display.innerHTML = text;
   },false);
 })();
 </script>
