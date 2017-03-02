@@ -56,7 +56,7 @@ function getData() {
  */
 function sortAqiData(data) { 
   return data.sort(function (a,b) {
-    return a[1]-b[1];
+    return b[1]-a[1];
   });
 }
 
@@ -111,8 +111,17 @@ function btnHandle() {
 function init() {
   // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
   var btn = document.getElementById("sort-btn");
-  btn.addEventListener("cilck",btnHandle());
+  // btn.addEventListener("cilck",btnHandle());
+  var once = true;
+  // onclick事件只执行一次
+  btn.onclick = function(){
+    if(once){
+      btnHandle();
+      once = false;
+      }
+  }
 }
+
 
 init();
 
