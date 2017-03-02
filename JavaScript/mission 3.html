@@ -1,11 +1,10 @@
-!DOCTYPE>
+<!DOCTYPE>
 <html>
   <head>
     <meta charset="utf-8">
     <title>IFE JavaScript Task 01</title>
   </head>
 <body>
-
   <ul id="source">
     <li>北京空气质量：<b>90</b></li>
     <li>上海空气质量：<b>70</b></li>
@@ -15,18 +14,14 @@
     <li>福州空气质量：<b>32</b></li>
     <li>成都空气质量：<b>90</b></li>
   </ul>
-
   <ul id="resort">
     <!-- 
     <li>第一名：北京空气质量：<b>90</b></li>
     <li>第二名：北京空气质量：<b>90</b></li>
     <li>第三名：北京空气质量：<b>90</b></li>
      -->
-
   </ul>
-
   <button id="sort-btn">排序</button>
-
 <script type="text/javascript">
 
 /**
@@ -34,22 +29,17 @@
  * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
  * 返回一个数组，格式见函数中示例
  */
-(function getData() {
-  /*
-  coding here
-  */
-  var data = [];
+function getData() {
+  var data = new Array();
   var sourceList = document.getElementById("source").getElementsByTagName("li");
-
-  console.log(sourceList);
   for (i=0 ; i < sourceList.length ; i++){
-
       var city = sourceList[i].childNodes[0].data.substr(0,2);
       var mark = sourceList[i].childNodes[1].innerHTML;
-      data.push(  city  +"，"+ mark);
+      data[i] = new Array();
+      data[i][0] = city;
+      data[i][1] = parseInt(mark);
   }
-console.log(data);
-
+  return data;
   /*
   data = [
     ["北京", 90],
@@ -57,10 +47,7 @@ console.log(data);
     ……
   ]
   */
-
-  return data;
-
-})()
+}
 
 /**
  * sortAqiData
@@ -68,16 +55,12 @@ console.log(data);
  * 返回一个排序后的数组
  */
 function sortAqiData(data) {
-  for(i=0 ; i< data.length-1 ; i++){
-  var markFirst = data[i].slice(-1,-2);
-  var markNext = data[i+1].slice(-1,-2);
-    if(markFirst > markNext){
-      var storage = markFirst;
-      markFirst = markNext;
-      markNext = storage;
-    }
+  function sortNum(a,b){
+    return b[1]-a[1];
   }
-  console.log(data);
+  data.sort(sortNum);
+  // console.log(data);
+  return data;
 }
 
 /**
@@ -87,9 +70,39 @@ function sortAqiData(data) {
  */
 function render(data) {
   var resort = document.getElementById("resort");
+  // console.log(data);
   for(i=0 ;i< data.length; i++){
-    var resortList = document.createElemnt("li");
-    
+    var resortList = document.createElement("li");
+    var chineseNum;
+    switch (i)
+    {
+    case 0:
+      chineseNum = "一";
+      break;
+    case 1:
+      chineseNum = "二";
+      break;
+    case 2:
+      chineseNum = "三";
+      break;
+    case 3:
+      chineseNum = "四";
+      break;
+    case 4:
+      chineseNum = "五";
+      break;
+    case 5:
+      chineseNum = "六";
+      break;
+    case 6:
+      chineseNum = "七";
+      break;
+    default:
+      chineseNum = i+1 ;
+    }
+    listText = "第" + chineseNum + "名：" + data[i][0] + "空气质量：<b>" + data[i][1] + "</b>";
+    resortList.innerHTML = listText;
+    resort.appendChild(resortList);
   }
 }
 
@@ -100,9 +113,9 @@ function btnHandle() {
 }
 
 function init() {
-
   // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
-
+  var btn = document.getElementById("sort-btn");
+  btn.addEventListener("cilck",btnHandle());
 }
 
 init();
