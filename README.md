@@ -6,4 +6,8 @@
  - [任务二](https://danielxh.github.io/2017-Baidu-Ife-Spring/JavaScript/mission%202.html)
  - [任务三](https://danielxh.github.io/2017-Baidu-Ife-Spring/JavaScript/mission%203.html)
  - [任务四](https://danielxh.github.io/2017-Baidu-Ife-Spring/JavaScript/mission%204.html)
-
+ - [任务五]()
+ - [任务六]()
+ - [任务七]()
+ - [任务八]()
+ - [任务九]()
