@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ife4</title>
+	<style>
+		input{
+			width: 200px;
+		}
+		button{
+			border-radius: 4px;
+		}
+		#sort-up{
+			margin-left: 10px;
+		}
+		li{
+			list-style-type: none;
+			display: inline-block;
+			height: 70px;
+			padding: 0 20px;
+			margin: 20px 10px 0px;
+			background-color: #666;
+			font-size: 18px;
+			font-family: "微软雅黑";
+			font-weight: bold;
+			line-height: 70px;
+			color: #fff;
+		}
+		#image{
+			margin: 40px 10px;
+			height: 300px;
+		}
+		#image div{
+			background-color: #999;
+			width: 20px;
+			display: inline-block;
+			margin-right: 8px;
+		}
+
+	</style>
+</head>
+<body>
+	<input id="input" type="text">
+	<button id="left-in">左侧入</button>
+	<button id="right-in">右侧入</button>
+	<button id="left-out">左侧出</button>
+	<button id="right-out">右侧出</button>
+	<button id="sort-up">升序排序</button>
+	<button id="sort-down">降序排列</button>
+	<div id="queue"></div>
+	<div id="image"></div>
+</body
+>
+<script>
+	var li = document.getElementById("left-in"),
+		ri = document.getElementById("right-in"),
+		lo = document.getElementById("left-out"),
+		ro = document.getElementById("right-out"),
+		sortUp = document.getElementById("sort-up");
+		sortDown = document.getElementById("sort-down")
+		input = document.getElementById("input"),
+		queue = document.getElementById("queue"),
+		image = document.getElementById('image');
+
+	//左侧入
+	li.onclick = function(){
+		//判断输出框是否为空且是否为数值
+		if(input.value >= 10 &&
+			input.value <= 100 &&
+			isNaN(Number(input.value)) == false &&
+			queue.childNodes.length < 60){
+			var newEle = document.createElement("li");
+			newEle.innerHTML = input.value;
+			queue.insertBefore(newEle , queue.childNodes[0]);
+			//生成柱状图
+			var list = document.createElement('div');
+			image.insertBefore(list,image.childNodes[0]);
+			list.style.height = input.value * 3 + "px";
+			list.style.marginTop = (100 - input.value) * 3 + "px";
+			//为节点绑定onclick事件
+			newEle.onclick = function(){
+				queue.removeChild(this);
+				image.removeChild(list);
+			}
+		}else if(isNaN(Number(input.value))){
+			alert("Not a number!");
+		}else if(input.value < 10 || input.value > 100){
+			alert("The number is out of range");
+		}else if(queue.childNodes.length >= 60){
+			alert("The queue includes too many numbers")
+		}
+	input.value = "";
+	}
+
+	//右侧入
+	ri.onclick = function(){
+		if(input.value >= 10 &&
+			input.value <= 100 &&
+			isNaN(Number(input.value)) == false &&
+			queue.childNodes.length < 60){
+			var newEle = document.createElement("li");
+			newEle.innerHTML = input.value;
+			queue.appendChild(newEle);
+			//生成柱状图
+			var list = document.createElement('div');
+			image.appendChild(list);
+			list.style.height = input.value * 3 + "px";
+			list.style.marginTop = (100 - input.value) * 3 + "px";
+			//为节点绑定onclick事件
+			newEle.onclick = function(){
+				queue.removeChild(this);
+				image.removeChild(list);
+			}
+		}else if(isNaN(Number(input.value))){
+			alert("Not a number!");
+		}else if(input.value < 10 || input.value > 100){
+			alert("The number is out of range.");
+		}else if(queue.childNodes.length >= 60){
+			alert("The queue includes too many numbers.")
+		}
+	input.value = "";
+	}
+
+	//左侧出
+	lo.onclick = function(){
+		//检查队列中是否含有子节点
+		if(queue.childNodes.length > 0){
+			alert("The number is " + queue.firstChild.innerHTML);
+			queue.removeChild(queue.firstChild);
+			image.removeChild(image.firstChild);
+		}
+	}
+
+	//右侧出
+	ro.onclick = function(){
+		if(queue.childNodes.length > 0){
+			alert("The number is " + queue.lastChild.innerHTML);
+			queue.removeChild(queue.lastChild);
+			image.removeChild(image.lastChild);
+		}
+	}
+
+	//升序排序
+	sortUp.onclick = function(){
+		sortFun(compareUp1,compareUp2);
+	}
+	//降序排序
+	sortDown.onclick = function(){
+		sortFun(compareDown1,compareDown2);
+	}
+
+	//排序函数
+	function sortFun(fun1,fun2){
+		//对队列进行排序，先将dom节点装进数组，对数组进行排序
+		var queueArr = [];
+		var imageArr = [];
+		for(var i = 0; i < queue.childNodes.length; i++){
+			queueArr.push(queue.childNodes[i]);
+			imageArr.push(image.childNodes[i]);
+		}
+		queueArr.sort(fun1);
+		imageArr.sort(fun2);
+		//清除原来的dom子节点
+		while (queue.childNodes.length > 0) {
+			queue.removeChild(queue.firstChild);
+			image.removeChild(image.firstChild);
+		}
+		//遍历数组，插入子节点
+		for(var j = 0; j < queueArr.length; j++){
+			queue.appendChild(queueArr[j]);
+			image.appendChild(imageArr[j]);
+		}
+	}
+
+	//用于排序的比较函数
+	//升序
+	function compareUp1(a,b){
+		return a.innerHTML - b.innerHTML
+	}
+	function compareUp2(a,b){
+		return parseInt(a.style.height) - parseInt(b.style.height)
+	}
+	//降序
+	function compareDown1(a,b){
+		return b.innerHTML - a.innerHTML
+	}
+	function compareDown2(a,b){
+		return parseInt(b.style.height) - parseInt(a.style.height)
+	}
+
+</script>
+
+</html>
