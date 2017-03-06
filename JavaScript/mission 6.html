@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ife6</title>
+	<style>
+		textarea{
+			width: 300px;
+			vertical-align: middle;
+		}
+		p{
+			font-size: 14px;
+			line-height: 10px;
+		}
+		button{
+			border-radius: 4px;
+		}
+		li{
+			list-style-type: none;
+			display: inline-block;
+			height: 70px;
+			padding: 0 20px;
+			margin: 20px 10px 0px;
+			background-color: #666;
+			font-size: 18px;
+			font-family: "微软雅黑";
+			font-weight: bold;
+			line-height: 70px;
+			color: #fff;
+
+		}
+		*{
+			transition:all .6s cubic-bezier(0,.5,1,.5);;
+			-webkit-transition:all .6s cubic-bezier(0,.5,1,.5);
+		}
+
+	</style>
+</head>
+<body>
+	<p>文本输入框：</p>
+	<textarea id="input" placeholder="可同时输入多项内容，以;分隔"></textarea>
+	<button id="left-in">左侧入</button>
+	<button id="right-in">右侧入</button>
+	<button id="left-out">左侧出</button>
+	<button id="right-out">右侧出</button>
+	<p>文本检索框：</p>
+	<textarea id="search" placeholder="输入需要搜索的文本内容"></textarea>
+	<button id="searchBtn">搜索</button>
+	<div id="queue"></div>
+</body
+>
+<script>
+	var li = document.getElementById("left-in"),
+		ri = document.getElementById("right-in"),
+		lo = document.getElementById("left-out"),
+		ro = document.getElementById("right-out"),
+		input = document.getElementById("input"),
+		search = document.getElementById("search"),
+		searchBtn = document.getElementById("searchBtn");
+		queue = document.getElementById("queue");
+
+	//左侧入
+	li.onclick = function(){
+		 var text = [];
+		//判断输出框是否为空且是否为数值
+		if (input.value !== "") {
+			text = input.value.split(";");
+			text.reverse();   //将数组元素倒序
+			for(var i = 0; i < text.length; i++){
+				var newEle = document.createElement("li");
+				newEle.innerHTML = text[i];
+				queue.insertBefore(newEle , queue.childNodes[0]);
+				//为节点绑定onclick事件
+				newEle.onclick = function(){
+					queue.removeChild(this);
+				}
+			}
+		}
+	input.value = "";
+	text = null;
+	}
+	//右侧入
+	ri.onclick = function(){
+		var text = [];
+		if (input.value !== "") {
+			text = input.value.split(";");
+			for(var i = 0; i < text.length; i++){
+				var newEle = document.createElement("li");
+				newEle.innerHTML = text[i];
+				queue.appendChild(newEle);
+				newEle.onclick = function(){
+					queue.removeChild(this);
+				}
+			}
+		}
+	input.value = "";
+	text = null;
+	}
+
+	//左侧出
+	lo.onclick = function(){
+		//检查队列中是否含有子节点
+		if(queue.childNodes.length > 0){
+			queue.removeChild(queue.childNodes[0]);
+		}
+	}
+
+	//左侧出
+	ro.onclick = function(){
+		if(queue.childNodes.length > 0){
+			queue.removeChild(queue.childNodes[queue.childNodes.length-1]);
+		}
+	}
+
+	//文本搜索
+	searchBtn.onclick = function(){
+		for(var i = 0; i < queue.childNodes.length; i++){
+			var result = queue.childNodes[i].innerHTML.search(search.value);
+			if (result != -1) {
+				queue.childNodes[i].style.backgroundColor = "#f44";
+			}
+		}
+	}
+
+</script>
+
+</html>

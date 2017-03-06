@@ -22,7 +22,7 @@
 			font-weight: bold;
 			line-height: 70px;
 			color: #fff;
-			
+
 		}
 
 	</style>
@@ -42,12 +42,12 @@
 		lo = document.getElementById("left-out"),
 		ro = document.getElementById("right-out"),
 		input = document.getElementById("input"),
-		queue = document.getElementById("queue");		
+		queue = document.getElementById("queue");
 
 	//左侧入
 	li.onclick = function(){
 		//判断输出框是否为空且是否为数值
-		if (input.value !== "" && isNaN(Number(input.value)) == false) { 
+		if (input.value !== "" && isNaN(Number(input.value)) == false) {
 			var newEle = document.createElement("li");
 			newEle.innerHTML = input.value;
 			queue.insertBefore( newEle , queue.childNodes[0]);
@@ -63,13 +63,15 @@
 	}
 	//右侧入
 	ri.onclick = function(){
-		if (input.value !== "") {
+		if (input.value !== "" && isNaN(Number(input.value)) == false) {
 			var newEle = document.createElement("li");
 			newEle.innerHTML = input.value;
-			queue.appendChild( newEle , queue.childNodes[0]);
+			queue.appendChild(newEle);
 			newEle.onclick = function(){
 				queue.removeChild(this);
 			}
+		}else if(isNaN(Number(input.value))){
+			alert("Not a Number!!!")
 		}
 	input.value = "";
 	}
